@@ -8,11 +8,18 @@ function onClick() {
     const listItem = document.createElement('li');
     const listText = document.createElement('span');
     const listBtn = document.createElement('button');
+    const listCheck = document.createElement('input');
+    listCheck.setAttribute('type', 'checkbox');
+    listItem.appendChild(listCheck);
     listItem.appendChild(listText);
     listItem.appendChild(listBtn);
     listText.textContent = myItem;
     listBtn.textContent = "Delete";
     list.appendChild(listItem);
+    listCheck.addEventListener("click", function() {
+        listText.style.textDecoration = 'line-through';
+        listText.style.color = 'grey';
+    });
     listBtn.addEventListener("click", () => list.removeChild(listItem));
     input.focus()
 };
