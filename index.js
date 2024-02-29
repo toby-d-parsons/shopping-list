@@ -17,8 +17,13 @@ function onClick() {
     listBtn.textContent = "Delete";
     list.appendChild(listItem);
     listCheck.addEventListener("click", function() {
-        listText.style.textDecoration = 'line-through';
-        listText.style.color = 'grey';
+        if (listCheck.checked) {
+            listText.style.textDecoration = 'line-through';
+            listText.style.color = 'grey';
+        } else {
+            listText.style.textDecoration = 'none';
+            listText.style.color = 'black';
+        }
     });
     listBtn.addEventListener("click", () => list.removeChild(listItem));
     input.focus()
