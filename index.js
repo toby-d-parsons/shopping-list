@@ -2,6 +2,9 @@ const list = document.querySelector("ul");
 const input = document.querySelector("input");
 const button = document.querySelector("button");
 
+list.style.listStyleType = "none";
+list.style.paddingLeft = "0";
+
 function onClick() {
     let myItem = input.value;
     input.value = ''; // Empties input text field
