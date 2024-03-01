@@ -11,13 +11,16 @@ function onClick() {
     const listItem = document.createElement('li');
     const listText = document.createElement('button');
     const listBtn = document.createElement('button');
+    const tagInput = document.createElement('input');
     const listCheck = document.createElement('input');
-    // listText.style.cssText = 'background: none; color: inherit; border: none; padding: 0; outline: inherit;'
     listText.style.cssText = 'color: inherit; border: 1px solid black; border-radius: 5px; padding: 5px; outline: inherit;'
+    tagInput.style.cssText = 'border: 1px solid black; border-radius: 2px; margin: 0px 20px';
+    tagInput.setAttribute("placeholder", "Add new tag...");
     listText.setAttribute("contentEditable", "true");
     listCheck.setAttribute('type', 'checkbox');
     listItem.appendChild(listCheck);
     listItem.appendChild(listText);
+    listItem.appendChild(tagInput);
     listItem.appendChild(listBtn);
     listText.textContent = myItem;
     listBtn.textContent = "Delete";
@@ -38,6 +41,23 @@ function onClick() {
             listItem.appendChild(listBtn);
         }
     });
+    tagInput.addEventListener("keydown", (event) => {
+        if (event.key === 'Enter') {
+            // alert("TEST");
+            const tagValue = tagInput.value;
+            tagInput.value = '';
+            const myTag = document.createElement('div');
+            const tagText = document.createElement('span');
+            const tagBtn = document.createElement('button');
+            tagText.textContent = tagValue;
+            tagBtn.textContent = 'X';
+            myTag.appendChild(tagText);
+            myTag.appendChild(tagBtn);
+            listItem.appendChild(myTag);
+            myTag.style.cssText = ("display: inline");
+            tagBtn.addEventListener("click", () => listItem.removeChild(myTag));
+        }
+    })
     listBtn.addEventListener("click", () => list.removeChild(listItem));
     listText.addEventListener("mouseover", () => listText.style.color = "grey");
     listText.addEventListener("mouseout", () => listText.style.color = "black");
