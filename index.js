@@ -15,14 +15,21 @@ function onClick() {
     listItem.appendChild(listBtn);
     listText.textContent = myItem;
     listBtn.textContent = "Delete";
-    list.appendChild(listItem);
+    if (myItem) {
+        list.appendChild(listItem);
+        input.style.outlineColor = "black";
+    } else {
+        input.style.outlineColor = "red";
+    }
     listCheck.addEventListener("click", function() {
         if (listCheck.checked) {
             listText.style.textDecoration = 'line-through';
             listText.style.color = 'grey';
+            listItem.removeChild(listBtn);
         } else {
             listText.style.textDecoration = 'none';
             listText.style.color = 'black';
+            listItem.appendChild(listBtn);
         }
     });
     listBtn.addEventListener("click", () => list.removeChild(listItem));
