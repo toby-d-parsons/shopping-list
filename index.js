@@ -13,8 +13,9 @@ function onClick() {
     const listBtn = document.createElement('button');
     const tagInput = document.createElement('input');
     const listCheck = document.createElement('input');
+    listItem.style.cssText = ('display: flex');
     listText.style.cssText = 'color: inherit; border: 1px solid black; border-radius: 5px; padding: 5px; outline: inherit;'
-    tagInput.style.cssText = 'border: 1px solid black; border-radius: 2px; margin: 0px 20px';
+    tagInput.style.cssText = 'width: 90px; border: 1px solid black; border-radius: 2px; margin: 0px 20px';
     tagInput.setAttribute("placeholder", "Add new tag...");
     listText.setAttribute("contentEditable", "true");
     listCheck.setAttribute('type', 'checkbox');
@@ -23,6 +24,7 @@ function onClick() {
     listItem.appendChild(tagInput);
     listItem.appendChild(listBtn);
     listText.textContent = myItem;
+    listBtn.style.cssText = ('order: 9999');
     listBtn.textContent = "Delete";
     if (myItem) {
         list.appendChild(listItem);
@@ -42,8 +44,8 @@ function onClick() {
         }
     });
     tagInput.addEventListener("keydown", (event) => {
-        if (event.key === 'Enter') {
-            // alert("TEST");
+        if (event.key === 'Enter' && tagInput.value) {
+            tagInput.style.outlineColor = "black";
             const tagValue = tagInput.value;
             tagInput.value = '';
             const myTag = document.createElement('div');
@@ -51,11 +53,15 @@ function onClick() {
             const tagBtn = document.createElement('button');
             tagText.textContent = tagValue;
             tagBtn.textContent = 'X';
+            tagText.style.cssText = ('margin: 0px 5px');
+            tagBtn.style.cssText = ('margin: 0px 5px');
             myTag.appendChild(tagText);
             myTag.appendChild(tagBtn);
             listItem.appendChild(myTag);
-            myTag.style.cssText = ("display: inline");
+            myTag.style.cssText = ("margin: 0px 2px; background-color: #8bace0; border: 1px solid black; border-radius: 2px; order: 4");
             tagBtn.addEventListener("click", () => listItem.removeChild(myTag));
+        } else if (event.key === 'Enter' && tagInput.value == '') {
+            tagInput.style.outlineColor = "red";
         }
     })
     listBtn.addEventListener("click", () => list.removeChild(listItem));
