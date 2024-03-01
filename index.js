@@ -9,9 +9,12 @@ function onClick() {
     let myItem = input.value;
     input.value = ''; // Empties input text field
     const listItem = document.createElement('li');
-    const listText = document.createElement('span');
+    const listText = document.createElement('button');
     const listBtn = document.createElement('button');
     const listCheck = document.createElement('input');
+    // listText.style.cssText = 'background: none; color: inherit; border: none; padding: 0; outline: inherit;'
+    listText.style.cssText = 'color: inherit; border: 1px solid black; border-radius: 5px; padding: 5px; outline: inherit;'
+    listText.setAttribute("contentEditable", "true");
     listCheck.setAttribute('type', 'checkbox');
     listItem.appendChild(listCheck);
     listItem.appendChild(listText);
@@ -36,6 +39,8 @@ function onClick() {
         }
     });
     listBtn.addEventListener("click", () => list.removeChild(listItem));
+    listText.addEventListener("mouseover", () => listText.style.color = "grey");
+    listText.addEventListener("mouseout", () => listText.style.color = "black");
     input.focus()
 };
 
