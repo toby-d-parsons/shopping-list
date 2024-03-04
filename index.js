@@ -14,7 +14,7 @@ divAppend.appendChild(sortBtnDesc);
 let idCounter = 1000;
 
 function onClick() {
-    let myItem = input.value;
+    let myItem = input.value.trim();
     input.value = ''; // Empties input text field
     const listItem = document.createElement('li');
     const listText = document.createElement('button');
@@ -124,5 +124,10 @@ function sortDesc() {
 
 
 button.addEventListener("click", onClick);
+input.addEventListener("keydown", (event) => {
+    if (event.key === 'Enter' && input.value) {
+        onClick();
+    }
+});
 sortBtnAsc.addEventListener("click", sortAsc);
 sortBtnDesc.addEventListener("click", sortDesc);
