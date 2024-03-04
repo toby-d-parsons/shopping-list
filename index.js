@@ -4,9 +4,12 @@ const input = document.querySelector("input");
 const button = document.querySelector("button");
 let itemArray = [];
 console.log(itemArray);
-const sortBtn = document.createElement("button");
-sortBtn.textContent = "Sort";
-divAppend.appendChild(sortBtn);
+const sortBtnAsc = document.createElement("button");
+sortBtnAsc.textContent = "Sort (A-Z)";
+divAppend.appendChild(sortBtnAsc);
+const sortBtnDesc = document.createElement("button");
+sortBtnDesc.textContent = "Sort (Z-A)";
+divAppend.appendChild(sortBtnDesc);
 
 list.style.listStyleType = "none";
 list.style.paddingLeft = "0";
@@ -81,10 +84,9 @@ function onClick() {
     input.focus()
 };
 
-function sortClick() {
+function sortAsc() {
     let listItemsToShuffle = list.querySelectorAll("li");
     for (let i = 0; i < listItemsToShuffle.length - 1; i++) {
-        debugger;
         for (let ie = i +1; ie < listItemsToShuffle.length; ) {
             if ((listItemsToShuffle[i].querySelector('.itemText').innerHTML.toLowerCase().trimStart().localeCompare(listItemsToShuffle[ie].querySelector('.itemText').innerHTML.toLowerCase().trimStart()) === 1)) {
                 list.appendChild(listItemsToShuffle[i]);
@@ -97,5 +99,21 @@ function sortClick() {
     }
 }
 
+function sortDesc() {
+    let listItemsToShuffle = list.querySelectorAll("li");
+    for (let i = 0; i <listItemsToShuffle.length - 1; i++) {
+        for (let ie = i +1; ie < listItemsToShuffle.length; ) {
+            if ((listItemsToShuffle[i].querySelector('.itemText').innerHTML.toLowerCase().trimStart().localeCompare(listItemsToShuffle[ie].querySelector('.itemText').innerHTML.toLowerCase().trimStart()) === -1)) {
+                list.appendChild(listItemsToShuffle[i]);
+                listItemsToShuffle = list.querySelectorAll("li");
+                ie = i +1;
+            } else {
+                ie++;
+            }
+        }
+    }
+}
+
 button.addEventListener("click", onClick);
-sortBtn.addEventListener("click", sortClick);
+sortBtnAsc.addEventListener("click", sortAsc);
+sortBtnDesc.addEventListener("click", sortDesc);
