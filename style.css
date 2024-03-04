@@ -1,0 +1,54 @@
+* {
+    // color: red;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.list-item { // Can also be 'li'
+    
+}
+
+li button {
+    font-size: 12px;
+    margin-left: 20px;
+    color: #666;
+  }
+
+.item-text {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    outline: inherit;
+}
+
+.tag-input {
+    width: 90px;
+    border: 1px solid black;
+    border-radius: 2px;
+    margin: 0px 20px;
+}
+
+.item-complete {
+    text-decoration: line-through;
+    color: grey !important;
+}
+
+.item-incomplete {
+    text-decoration: none;
+    color: black;
+}
+
+.tag-item {
+    margin: 0px 2px;
+    background-color: #8bace0;
+    border: 1px solid black;
+    border-radius: 2px;
+    order: 4;
+}
+
+.deleteBtn {
+    order: 9999;
+}

@@ -11,8 +11,6 @@ const sortBtnDesc = document.createElement("button");
 sortBtnDesc.textContent = "Sort (Z-A)";
 divAppend.appendChild(sortBtnDesc);
 
-list.style.listStyleType = "none";
-list.style.paddingLeft = "0";
 let idCounter = 1000;
 
 function onClick() {
@@ -20,26 +18,26 @@ function onClick() {
     input.value = ''; // Empties input text field
     const listItem = document.createElement('li');
     const listText = document.createElement('button');
-    const listBtn = document.createElement('button');
+    const deleteBtn = document.createElement('button');
     const tagInput = document.createElement('input');
     const listCheck = document.createElement('input');
     listItem.id = idCounter;
+    listItem.classList.add('list-item');
     idCounter++;
-    listText.className = 'itemText';
-    listItem.style.cssText = ('display: flex');
-    listText.style.cssText = 'color: inherit; border: 1px solid black; border-radius: 5px; padding: 5px; outline: inherit;'
-    tagInput.style.cssText = 'width: 90px; border: 1px solid black; border-radius: 2px; margin: 0px 20px';
+    listText.className = 'item-text item-incomplete';
+    tagInput.className = 'tag-input';
+    deleteBtn.className = 'deleteBtn';
+    listItem.style.cssText = ('display: flex'); // Unable to move into CSS without tags moving to next line. Despite the correct class, does not add flex
     tagInput.setAttribute("placeholder", "Add new tag...");
     listText.setAttribute("contentEditable", "true");
     listCheck.setAttribute('type', 'checkbox');
     listItem.appendChild(listCheck);
     listItem.appendChild(listText);
     listItem.appendChild(tagInput);
-    listItem.appendChild(listBtn);
+    listItem.appendChild(deleteBtn);
     itemArray.push(listItem);
     listText.textContent = myItem;
-    listBtn.style.cssText = ('order: 9999');
-    listBtn.textContent = "Delete";
+    deleteBtn.textContent = "Delete";
     if (myItem) {
         list.appendChild(listItem);
         input.style.outlineColor = "black";
@@ -48,13 +46,13 @@ function onClick() {
     }
     listCheck.addEventListener("click", function() {
         if (listCheck.checked) {
-            listText.style.textDecoration = 'line-through';
-            listText.style.color = 'grey';
-            listItem.removeChild(listBtn);
+            listText.classList.remove('item-incomplete');
+            listText.classList.add('item-complete');
+            listItem.removeChild(deleteBtn);
         } else {
-            listText.style.textDecoration = 'none';
-            listText.style.color = 'black';
-            listItem.appendChild(listBtn);
+            listText.classList.add('item-incomplete');
+            listText.classList.remove('item-complete');
+            listItem.appendChild(deleteBtn);
         }
     });
     tagInput.addEventListener("keydown", (event) => {
@@ -72,13 +70,13 @@ function onClick() {
             myTag.appendChild(tagText);
             myTag.appendChild(tagBtn);
             listItem.appendChild(myTag);
-            myTag.style.cssText = ("margin: 0px 2px; background-color: #8bace0; border: 1px solid black; border-radius: 2px; order: 4");
+            myTag.classList.add('tag-item');
             tagBtn.addEventListener("click", () => listItem.removeChild(myTag));
         } else if (event.key === 'Enter' && tagInput.value == '') {
             tagInput.style.outlineColor = "red";
         }
     })
-    listBtn.addEventListener("click", () => list.removeChild(listItem));
+    deleteBtn.addEventListener("click", () => list.removeChild(listItem));
     listText.addEventListener("mouseover", () => listText.style.color = "grey");
     listText.addEventListener("mouseout", () => listText.style.color = "black");
     input.focus()
@@ -88,7 +86,7 @@ function sortAsc() {
     let listItemsToShuffle = list.querySelectorAll("li");
     for (let i = 0; i < listItemsToShuffle.length - 1; i++) {
         for (let ie = i +1; ie < listItemsToShuffle.length; ) {
-            if ((listItemsToShuffle[i].querySelector('.itemText').innerHTML.toLowerCase().trimStart().localeCompare(listItemsToShuffle[ie].querySelector('.itemText').innerHTML.toLowerCase().trimStart()) === 1)) {
+            if ((listItemsToShuffle[i].querySelector('.item-text').innerHTML.toLowerCase().trimStart().localeCompare(listItemsToShuffle[ie].querySelector('.item-text').innerHTML.toLowerCase().trimStart()) === 1)) {
                 list.appendChild(listItemsToShuffle[i]);
                 listItemsToShuffle = list.querySelectorAll("li");
                 ie = i +1;
@@ -103,7 +101,7 @@ function sortDesc() {
     let listItemsToShuffle = list.querySelectorAll("li");
     for (let i = 0; i <listItemsToShuffle.length - 1; i++) {
         for (let ie = i +1; ie < listItemsToShuffle.length; ) {
-            if ((listItemsToShuffle[i].querySelector('.itemText').innerHTML.toLowerCase().trimStart().localeCompare(listItemsToShuffle[ie].querySelector('.itemText').innerHTML.toLowerCase().trimStart()) === -1)) {
+            if ((listItemsToShuffle[i].querySelector('.item-text').innerHTML.toLowerCase().trimStart().localeCompare(listItemsToShuffle[ie].querySelector('.item-text').innerHTML.toLowerCase().trimStart()) === -1)) {
                 list.appendChild(listItemsToShuffle[i]);
                 listItemsToShuffle = list.querySelectorAll("li");
                 ie = i +1;
@@ -113,6 +111,17 @@ function sortDesc() {
         }
     }
 }
+
+// sortBtnAsc.classList.add('TESTCLASS');
+// document.getElementsByClassName('TESTCLASS').style.cssText('background-color') = 'pink';
+
+// const TEST = document.querySelector('.TESTCLASS');
+
+/* function toggleSortBtn(X) {
+    // outside function, create function class
+    // needs a css file to work really
+} */
+
 
 button.addEventListener("click", onClick);
 sortBtnAsc.addEventListener("click", sortAsc);
