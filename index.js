@@ -1,9 +1,16 @@
+const divAppend = document.querySelector("div");
 const list = document.querySelector("ul");
 const input = document.querySelector("input");
 const button = document.querySelector("button");
+let itemArray = [];
+console.log(itemArray);
+const sortBtn = document.createElement("button");
+sortBtn.textContent = "Sort";
+divAppend.appendChild(sortBtn);
 
 list.style.listStyleType = "none";
 list.style.paddingLeft = "0";
+let idCounter = 1000;
 
 function onClick() {
     let myItem = input.value;
@@ -13,6 +20,9 @@ function onClick() {
     const listBtn = document.createElement('button');
     const tagInput = document.createElement('input');
     const listCheck = document.createElement('input');
+    listItem.id = idCounter;
+    idCounter++;
+    listText.className = 'itemText';
     listItem.style.cssText = ('display: flex');
     listText.style.cssText = 'color: inherit; border: 1px solid black; border-radius: 5px; padding: 5px; outline: inherit;'
     tagInput.style.cssText = 'width: 90px; border: 1px solid black; border-radius: 2px; margin: 0px 20px';
@@ -23,6 +33,7 @@ function onClick() {
     listItem.appendChild(listText);
     listItem.appendChild(tagInput);
     listItem.appendChild(listBtn);
+    itemArray.push(listItem);
     listText.textContent = myItem;
     listBtn.style.cssText = ('order: 9999');
     listBtn.textContent = "Delete";
@@ -70,4 +81,21 @@ function onClick() {
     input.focus()
 };
 
+function sortClick() {
+    let listItemsToShuffle = list.querySelectorAll("li");
+    for (let i = 0; i < listItemsToShuffle.length - 1; i++) {
+        debugger;
+        for (let ie = i +1; ie < listItemsToShuffle.length; ) {
+            if ((listItemsToShuffle[i].querySelector('.itemText').innerHTML.toLowerCase().trimStart().localeCompare(listItemsToShuffle[ie].querySelector('.itemText').innerHTML.toLowerCase().trimStart()) === 1)) {
+                list.appendChild(listItemsToShuffle[i]);
+                listItemsToShuffle = list.querySelectorAll("li");
+                ie = i +1;
+            } else {
+                ie++;
+            }
+        }
+    }
+}
+
 button.addEventListener("click", onClick);
+sortBtn.addEventListener("click", sortClick);
