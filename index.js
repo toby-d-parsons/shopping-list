@@ -3,6 +3,7 @@ const list = document.querySelector("ul");
 const input = document.querySelector("input");
 const button = document.querySelector("button");
 let itemArray = [];
+let completedArray = [];
 console.log(itemArray);
 const sortBtnAsc = document.createElement("button");
 sortBtnAsc.textContent = "Sort (A-Z)";
@@ -10,6 +11,14 @@ divAppend.appendChild(sortBtnAsc);
 const sortBtnDesc = document.createElement("button");
 sortBtnDesc.textContent = "Sort (Z-A)";
 divAppend.appendChild(sortBtnDesc);
+const checkboxContainer = document.createElement("span");
+divAppend.appendChild(checkboxContainer);
+const checkboxText = document.createElement("label");
+checkboxContainer.appendChild(checkboxText);
+checkboxText.textContent = "Hide completed";
+const completedBtn = document.createElement("input");
+completedBtn.setAttribute('type', 'checkbox');
+checkboxContainer.appendChild(completedBtn);
 
 let idCounter = 1000;
 
@@ -22,9 +31,9 @@ function onClick() {
     const tagInput = document.createElement('input');
     const listCheck = document.createElement('input');
     listItem.id = idCounter;
-    listItem.classList.add('list-item');
+    listItem.classList.add('list-item', 'item-incomplete');
     idCounter++;
-    listText.className = 'item-text item-incomplete';
+    listText.className = 'item-text';
     tagInput.className = 'tag-input';
     deleteBtn.className = 'deleteBtn';
     listItem.style.cssText = ('display: flex'); // Unable to move into CSS without tags moving to next line. Despite the correct class, does not add flex
@@ -46,12 +55,12 @@ function onClick() {
     }
     listCheck.addEventListener("click", function() {
         if (listCheck.checked) {
-            listText.classList.remove('item-incomplete');
-            listText.classList.add('item-complete');
+            listItem.classList.remove('item-incomplete');
+            listItem.classList.add('item-complete');
             listItem.removeChild(deleteBtn);
         } else {
-            listText.classList.add('item-incomplete');
-            listText.classList.remove('item-complete');
+            listItem.classList.add('item-incomplete');
+            listItem.classList.remove('item-complete');
             listItem.appendChild(deleteBtn);
         }
     });
@@ -84,6 +93,22 @@ function onClick() {
 
 function sortAsc() {
     let listItemsToShuffle = list.querySelectorAll("li");
+    if (completedBtn.checked) {
+        for (let p = 0; p < listItemsToShuffle.length; p++) {
+            if (listItemsToShuffle[p].classList.contains('item-complete')) {
+                completedArray.push(listItemsToShuffle[p]);
+                list.removeChild(listItemsToShuffle[p]);
+            }
+        }
+    } else {
+        for (let p = 0; p < completedArray.length; ) {
+            list.appendChild(completedArray[p]);
+            completedArray.splice(0, 1);
+        }
+    } // could make this into two functions from here
+    listItemsToShuffle = list.querySelectorAll("li");
+    sortBtnAsc.classList.add('sort-toggled');
+    sortBtnDesc.classList.remove('sort-toggled');
     for (let i = 0; i < listItemsToShuffle.length - 1; i++) {
         for (let ie = i +1; ie < listItemsToShuffle.length; ) {
             if ((listItemsToShuffle[i].querySelector('.item-text').innerHTML.toLowerCase().trimStart().localeCompare(listItemsToShuffle[ie].querySelector('.item-text').innerHTML.toLowerCase().trimStart()) === 1)) {
@@ -98,6 +123,8 @@ function sortAsc() {
 }
 
 function sortDesc() {
+    sortBtnDesc.classList.add('sort-toggled');
+    sortBtnAsc.classList.remove('sort-toggled');
     let listItemsToShuffle = list.querySelectorAll("li");
     for (let i = 0; i <listItemsToShuffle.length - 1; i++) {
         for (let ie = i +1; ie < listItemsToShuffle.length; ) {
@@ -112,16 +139,22 @@ function sortDesc() {
     }
 }
 
-// sortBtnAsc.classList.add('TESTCLASS');
-// document.getElementsByClassName('TESTCLASS').style.cssText('background-color') = 'pink';
-
-// const TEST = document.querySelector('.TESTCLASS');
-
-/* function toggleSortBtn(X) {
-    // outside function, create function class
-    // needs a css file to work really
-} */
-
+function sortById() {
+    sortBtnAsc.classList.remove('sort-toggled');
+    sortBtnDesc.classList.remove('sort-toggled');
+    let listItemsToShuffle = list.querySelectorAll("li");
+    for (let i = 0; i <listItemsToShuffle.length - 1; i++) {
+        for (let ie = i +1; ie < listItemsToShuffle.length; ) {
+            if ((listItemsToShuffle[i].id.localeCompare(listItemsToShuffle[ie].id) === 1)) {
+                list.appendChild(listItemsToShuffle[i]);
+                listItemsToShuffle = list.querySelectorAll("li");
+                ie = i +1;
+            } else {
+                ie++;
+            }
+        }
+    }
+}
 
 button.addEventListener("click", onClick);
 input.addEventListener("keydown", (event) => {
@@ -129,5 +162,22 @@ input.addEventListener("keydown", (event) => {
         onClick();
     }
 });
-sortBtnAsc.addEventListener("click", sortAsc);
-sortBtnDesc.addEventListener("click", sortDesc);
+sortBtnAsc.addEventListener("click", () => {
+    if (sortBtnAsc.classList.contains('sort-toggled')) {
+        sortById();
+    } else {
+        sortAsc();
+    }
+});
+sortBtnDesc.addEventListener("click", () => {
+    if (sortBtnDesc.classList.contains('sort-toggled')) {
+        sortById();
+    } else {
+        sortDesc();
+    }
+});
+
+
+// Hide Completed functionality needs to extend from just Sort A-Z to other functions too
+// add code so checking an item when Hide Completed is ticked removes it from list (needs to be added to other array)
+// Some items seems to be created with hover-on. Others not, to investigate

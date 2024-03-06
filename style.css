@@ -1,15 +1,15 @@
-* {
+/** {
     // color: red;
-}
+}*/
 
 ul {
     list-style-type: none;
     padding-left: 0px;
 }
 
-.list-item { // Can also be 'li'
+/* .list-item { // Can also be 'li'
     
-}
+} */
 
 li button {
     font-size: 12px;
@@ -51,4 +51,8 @@ li button {
 
 .deleteBtn {
     order: 9999;
+}
+
+.sort-toggled {
+    background-color: pink;
 }
